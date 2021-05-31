@@ -2,7 +2,8 @@ import "antd/dist/antd.css";
 
 import {Table, Button, message, Layout, Menu} from 'antd';
 import {Link} from 'react-router-dom';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
+import investimentoService from "../../service/investimentoService";
 
 const {Header, Content, Footer} = Layout;
 const {Column} = Table;
@@ -11,7 +12,22 @@ export default function ListarInvestimentos(){
     
     const [investimentos, setInvestimentos] = useState([]);
     
+    useEffect(() => {
+        refreshInvestimentos();
+        return () =>{}
+    },[])
+
+    async function refreshInvestimentos(){
+        investimentoService.retrieveAllInvestimentos()
+          .then(
+              response => {
+                  setInvestimentos(response.data)
+              }
+          )
+    }
+
     function remove(record){
+        investimentoService.deleteInvestimento(record.cod);
         message.success("Investimento removido com sucesso!");
     }
 
@@ -37,10 +53,10 @@ export default function ListarInvestimentos(){
              <div className="site-layout-content">
               <h2>INVESTIMENTOS</h2>
                <Table dataSource={investimentos}>
-                   <Column title="Código do Ativo" dataIndex="codigoAtivo" key="codigoAtivo"/>
-                   <Column title="Valor" dataIndex="valor" key="valor"/>
-                   <Column title="Quantidade de Cotas" dataIndex="quantCotas" key="quantCotas"/>
-                   <Column title="Data da Compra" dataIndex="dtCompra" key="dtCompra"/>
+                   <Column title="Código do Ativo" dataIndex="codAtivo" key="codAtivo"/>
+                   <Column title="Valor" dataIndex="valorCota" key="valorCota"/>
+                   <Column title="Quantidade de Cotas" dataIndex="qntCota" key="qntCota"/>
+                   <Column title="Data da Compra" dataIndex="dataCompra" key="dataCompra"/>
                    <Column title="Remover" key="atualizar" 
                            render={(text, record) => (<Button onClick={() => remove(record)}
                            type="primary">Remover</Button>)}/>

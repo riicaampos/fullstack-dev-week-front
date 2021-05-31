@@ -1,5 +1,5 @@
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
-import CaddastrarInvestimento from '../pages/CadastrarInvestimento';
+import CadastrarInvestimento from '../pages/CadastrarInvestimento'
 import ListarInvestimentos from '../pages/ListarInvestimetos';
 
 
@@ -9,7 +9,8 @@ export default function Routes(){
       <BrowserRouter>
        <Switch>
            <Route exact path="/" component={ListarInvestimentos}></Route>
-           <Route exact path="cadastrar-investimentos" component={CaddastrarInvestimento}></Route>
+           <Route exact path="/listar-investimentos" component={ListarInvestimentos}></Route>
+           <Route exact path="/cadastrar-investimento" component={CadastrarInvestimento}></Route>
        </Switch>
       </BrowserRouter>
 
